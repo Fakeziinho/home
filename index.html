@@ -1,38 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Fakezalem | Wilton Lucas</title>
-    <style>
-        body {
-            background: #0f0f0f;
-            color: #00ffcc;
-            font-family: Arial;
-            text-align: center;
-            margin-top: 100px;
-        }
-        h1 {
-            font-size: 50px;
-        }
-        p {
-            font-size: 20px;
-            color: #ccc;
-        }
-        .box {
-            border: 1px solid #00ffcc;
-            padding: 20px;
-            display: inline-block;
-            border-radius: 10px;
-            box-shadow: 0 0 20px #00ffcc44;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Fakezalem | Wilton Lucas</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url("https://wallpapercave.com/wp/wp5128415.jpg") no-repeat center center/cover;
+    overflow: hidden;
+}
+
+/* LOADING */
+#loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.loader {
+    border: 5px solid #222;
+    border-top: 5px solid #00ffcc;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* CONTEÚDO */
+#content {
+    display: none;
+    text-align: center;
+    color: #00ffcc;
+    margin-top: 100px;
+}
+
+.box {
+    background: rgba(0,0,0,0.7);
+    padding: 30px;
+    border-radius: 15px;
+    display: inline-block;
+    box-shadow: 0 0 30px #00ffcc55;
+    animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+h1 {
+    font-size: 50px;
+}
+
+p {
+    color: #ccc;
+    font-size: 18px;
+}
+</style>
 </head>
+
 <body>
 
+<div id="loading">
+    <div class="loader"></div>
+</div>
+
+<div id="content">
     <div class="box">
-        <h1>Fakezalem</h1>
+        <h1>FakeZalem</h1>
         <p>Wilton Lucas</p>
         <p>💻 Dev | 🎮 Minecraft Modder</p>
     </div>
+</div>
+
+<script>
+setTimeout(() => {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("content").style.display = "block";
+}, 2500);
+</script>
 
 </body>
 </html>
