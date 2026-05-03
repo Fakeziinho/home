@@ -7,8 +7,8 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: url("https://wallpapercave.com/wp/wp5128415.jpg") no-repeat center center/cover;
+    font-family: Arial;
+    background: url("https://wallpapercave.com/wp/wp5128415.jpg") no-repeat center/cover;
     overflow: hidden;
 }
 
@@ -17,32 +17,59 @@ body {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,0.6);
+    overflow: hidden;
     z-index: 999;
 }
 
-.loader {
-    border: 5px solid #222;
-    border-top: 5px solid #ce6eed;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
+/* IMAGENS CAÓTICAS */
+.img {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    opacity: 0;
+    animation: float 4s ease forwards;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+@keyframes float {
+    0% {
+        transform: scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.2) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* TEXTO LOADING */
+.loading-text {
+    position: absolute;
+    bottom: 50px;
+    width: 100%;
+    text-align: center;
+    color: #d974fc;
+    font-size: 20px;
+    letter-spacing: 3px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
 /* CONTEÚDO */
 #content {
     display: none;
     text-align: center;
-    color: #ce6eed;
+    color: #d974fc;
     margin-top: 100px;
 }
 
@@ -51,7 +78,7 @@ body {
     padding: 30px;
     border-radius: 15px;
     display: inline-block;
-    box-shadow: 0 0 30px #ce6eed55;
+    box-shadow: 0 0 30px #d974fc55;
     animation: fadeIn 2s ease;
 }
 
@@ -59,22 +86,13 @@ body {
     from { opacity: 0; transform: translateY(30px);}
     to { opacity: 1; transform: translateY(0);}
 }
-
-h1 {
-    font-size: 50px;
-}
-
-p {
-    color: #ccc;
-    font-size: 18px;
-}
 </style>
 </head>
 
 <body>
 
 <div id="loading">
-    <div class="loader"></div>
+    <div class="loading-text">LOADING FAKEZALEM...</div>
 </div>
 
 <div id="content">
@@ -86,10 +104,38 @@ p {
 </div>
 
 <script>
+const images = [
+    "https://picsum.photos/200?random=1",
+    "https://picsum.photos/200?random=2",
+    "https://picsum.photos/200?random=3",
+    "https://picsum.photos/200?random=4",
+    "https://picsum.photos/200?random=5"
+];
+
+function spawnImage() {
+    const img = document.createElement("img");
+    img.src = images[Math.floor(Math.random() * images.length)];
+    img.className = "img";
+
+    img.style.top = Math.random() * window.innerHeight + "px";
+    img.style.left = Math.random() * window.innerWidth + "px";
+
+    document.getElementById("loading").appendChild(img);
+
+    setTimeout(() => {
+        img.remove();
+    }, 4000);
+}
+
+// cria várias imagens ao longo do tempo
+let interval = setInterval(spawnImage, 300);
+
+// termina loading
 setTimeout(() => {
+    clearInterval(interval);
     document.getElementById("loading").style.display = "none";
     document.getElementById("content").style.display = "block";
-}, 2500);
+}, 4000);
 </script>
 
 </body>
