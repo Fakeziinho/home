@@ -101,16 +101,14 @@ body {
 </div>
 
 <script>
-const images = [
-    "https://raw.githubusercontent.com/Fakeziinho/home/main/images/loading/1.jpg"
-];
+function link(num){
+    return `https://raw.githubusercontent.com/Fakeziinho/home/main/images/loading/${num}.png`;
+}
+    
+const randomNum = Math.floor(Math.random() * 3) + 1;
+const randomImage = link(randomNum);
 
-// escolhe UMA imagem aleatória
-const randomImage = images[Math.floor(Math.random() * images.length)];
-
-// aplica nos dois backgrounds
 document.getElementById("bg1").style.backgroundImage = `url(${randomImage})`;
-document.getElementById("bg2").style.backgroundImage = `url(${randomImage})`;
 
 // finaliza loading
 setTimeout(() => {
