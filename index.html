@@ -105,33 +105,18 @@ const images = [
     "https://raw.githubusercontent.com/Fakeziinho/home/main/images/loading/1.jpg"
 ];
 
-let current = 0;
+// escolhe UMA imagem aleatória
+const randomImage = images[Math.floor(Math.random() * images.length)];
 
-function changeBackground() {
-    const next = (current + 1) % 2;
+// aplica nos dois backgrounds
+document.getElementById("bg1").style.backgroundImage = `url(${randomImage})`;
+document.getElementById("bg2").style.backgroundImage = `url(${randomImage})`;
 
-    const bgCurrent = document.getElementById("bg" + (current + 1));
-    const bgNext = document.getElementById("bg" + (next + 1));
-
-    bgNext.style.backgroundImage = `url(${images[Math.floor(Math.random() * images.length)]})`;
-    bgNext.style.opacity = 1;
-    bgCurrent.style.opacity = 0;
-
-    current = next;
-}
-
-// primeira imagem
-changeBackground();
-
-// troca a cada 1.5s
-let interval = setInterval(changeBackground, 1500);
-
-// termina loading
+// finaliza loading
 setTimeout(() => {
-    clearInterval(interval);
     document.getElementById("loading").style.display = "none";
     document.getElementById("content").style.display = "block";
-}, 5000);
+}, 3000);
 </script>
 
 </body>
