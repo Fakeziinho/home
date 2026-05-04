@@ -102,20 +102,30 @@ body {
 
 <script>
 function link(id){
-    return `https://imgur.com/a/${id}`;
+    return `https://i.imgur.com/${id}`;
 }
-    
-const imagens [
-    link("ETmjnlJ")
-],
 
-document.getElementById("bg1").style.backgroundImage = `url(${imagens})`;
+const imagens = [
+    link("MbHhd38.jpeg"),
+    link("UvYj3eH.png"),
+    link("uBNCHq7.jpeg"),
+    link("IWNUmTa.jpeg"),
+    link("66KX5mj.jpeg"),
+    link("FwVS147.jpeg"),
+    link("0BkZdsK.jpeg"),
+    link("QzXuK8A.jpeg")
+];
+
+// pega imagem aleatória (mesmo com 1 já funciona)
+const randomImage = imagens[Math.floor(Math.random() * imagens.length)];
+
+document.getElementById("bg1").style.backgroundImage = `url(${randomImage})`;
 
 // finaliza loading
 setTimeout(() => {
     document.getElementById("loading").style.display = "none";
     document.getElementById("content").style.display = "block";
-}, 10000);
+}, 3000);
 </script>
 
 </body>
