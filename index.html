@@ -89,7 +89,7 @@ body {
     <div class="bg" id="bg1"></div>
     <div class="bg" id="bg2" style="opacity:0;"></div>
     <div class="overlay"></div>
-    <div class="loading-text">LOADING...</div>
+    <div class="loading-text">LOADING FAKEZALEM...</div>
 </div>
 
 <div id="content">
@@ -101,42 +101,21 @@ body {
 </div>
 
 <script>
-function link(num){
-    return `https://raw.githubusercontent.com/Fakeziinho/home/main/images/loading/${num}.jpg`;
+function link(id){
+    return `https://imgur.com/a/${id}`;
 }
+    
+const imagens [
+    link("ETmjnlJ")
+],
 
-// número de imagens
-const TOTAL = 8;
+document.getElementById("bg1").style.backgroundImage = `url(${imagens})`;
 
-// escolhe aleatória
-const randomNum = Math.floor(Math.random() * TOTAL) + 1;
-const randomImage = link(randomNum);
-
-const bg = document.getElementById("bg1");
-
-// fallback (se demorar muito)
-let loaded = false;
-
-// tenta carregar
-const img = new Image();
-img.src = randomImage;
-
-img.onload = () => {
-    loaded = true;
-    bg.style.backgroundImage = `url(${randomImage})`;
-};
-
-// ⚡ se demorar mais que 1.5s, continua mesmo assim
+// finaliza loading
 setTimeout(() => {
-    if (!loaded) {
-        // usa mesmo assim (vai carregar depois em background)
-        bg.style.backgroundImage = `url(${randomImage})`;
-    }
-
-    // termina loading
     document.getElementById("loading").style.display = "none";
     document.getElementById("content").style.display = "block";
-}, 1500);
+}, 10000);
 </script>
 
 </body>
