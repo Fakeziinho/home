@@ -59,11 +59,18 @@ body {
 /* CONTEÚDO */
 #content {
     display: none;
-    text-align: center;
     color: #f8b4ff;
-    margin-top: 100px;
-    background: url("https://wallpapercave.com/wp/wp5128415.jpg") no-repeat center/cover;
+    background:
+        linear-gradient(
+            rgba(15,10,25,.65),
+            rgba(5,5,15,.85)
+        ),
+        url("https://wallpapercave.com/wp/wp5128415.jpg");
+
+    background-size: cover;
+    background-position: center;
     height: 100vh;
+    overflow-y: auto;
 }
 
 .box {
@@ -74,6 +81,98 @@ body {
     box-shadow: 0 0 30px #f8b4ff55;
     animation: fadeIn 2s ease;
     margin-top: 100px;
+}
+
+.profile-card{
+    position:absolute;
+    top:20px;
+    left:20px;
+
+    width:320px;
+    padding:15px;
+
+    display:flex;
+    gap:15px;
+    align-items:center;
+
+    border-radius:25px;
+
+    backdrop-filter: blur(15px);
+
+    background:rgba(30,20,50,.35);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 0 20px rgba(248,180,255,.25);
+}
+
+.profile-card img{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.profile-name{
+    font-size:32px;
+    font-weight:bold;
+}
+
+.profile-sub{
+    color:#d8c7ff;
+}
+
+.main-panel{
+    width:700px;
+    margin:180px auto 50px auto;
+
+    padding:25px;
+
+    border-radius:25px;
+
+    backdrop-filter: blur(15px);
+
+    background:rgba(15,15,20,.45);
+
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.section{
+    margin-top:15px;
+}
+
+.section button{
+    width:100%;
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a40052,
+            #ff0080
+        );
+
+    cursor:pointer;
+
+    font-size:16px;
+}
+
+.section-content{
+    display:none;
+
+    padding:15px;
+
+    margin-top:8px;
+
+    border-radius:12px;
+
+    background:rgba(0,0,0,.3);
 }
 
 @keyframes fadeIn {
@@ -93,14 +192,82 @@ body {
 </div>
 
 <div id="content">
-    <div class="box">
-        <h1>Fakezalem</h1>
-        <p>Wilton Lucas</p>
-        <p>💻 Dev | 🎮 Minecraft Modder</p>
+
+    <div class="profile-card">
+
+        <img src="https://i.imgur.com/UvYj3eH.png">
+
+        <div>
+            <div class="profile-name">
+                Fakezalem
+            </div>
+
+            <div class="profile-sub">
+                Wilton Lucas
+            </div>
+
+            <div>
+                💻 Dev • 🎮 Minecraft Modder
+            </div>
+        </div>
+
     </div>
+
+    <div class="main-panel">
+
+        <h1>About Me</h1>
+
+        <div class="section">
+            <button onclick="toggle('sobre')">
+                Quem Sou Eu
+            </button>
+
+            <div id="sobre" class="section-content">
+                Desenvolvedor apaixonado por Minecraft,
+                mods, Godot e programação.
+            </div>
+        </div>
+
+        <div class="section">
+            <button onclick="toggle('projetos')">
+                Projetos
+            </button>
+
+            <div id="projetos" class="section-content">
+                SigmasPhdGuerraMod<br>
+                Clone System<br>
+                Jogos em Godot
+            </div>
+        </div>
+
+        <div class="section">
+            <button onclick="toggle('contato')">
+                Redes
+            </button>
+
+            <div id="contato" class="section-content">
+                GitHub<br>
+                Discord<br>
+                Instagram
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 <script>
+    
+function toggle(id){
+    const el = document.getElementById(id);
+
+    if(el.style.display === "block"){
+        el.style.display = "none";
+    }else{
+        el.style.display = "block";
+    }
+}
+    
 function link(id){
     return `https://i.imgur.com/${id}`;
 }
