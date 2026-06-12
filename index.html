@@ -12,13 +12,13 @@ body {
 }
 
 /* LOADING */
-#loading {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
+#loading{
+    position:fixed;
+    width:100%;
+    height:100%;
+    z-index:999;
+    transition:opacity 1s ease;
 }
-
 /* BACKGROUND */
 .bg {
     position: absolute;
@@ -47,6 +47,7 @@ body {
     height:280px;
     
     transform:translate(-50%,-50%);
+    overflow: hidden;
 
     border-radius:50%;
 
@@ -161,6 +162,20 @@ body {
     }
 
 }
+    
+@keyframes finalFlash {
+
+    0%{
+        transform:translate(-50%,-50%) scale(1);
+        filter:brightness(1);
+    }
+
+    100%{
+        transform:translate(-50%,-50%) scale(1.15);
+        filter:brightness(1.5);
+    }
+
+}
 
 /* TEXTO */
 .loading-text{
@@ -202,7 +217,13 @@ body {
     justify-content:center;
     align-items:center;
 }
-
+    
+#neurons{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+}
 
 .profile-card{
     position:absolute;
@@ -342,15 +363,6 @@ body {
         <div class="core"></div>
         <div id="neurons"></div>
 
-        <div class="node n1"></div>
-        <div class="node n2"></div>
-        <div class="node n3"></div>
-        <div class="node n4"></div>
-        <div class="node n5"></div>
-        <div class="node n6"></div>
-        <div class="node n7"></div>
-        <div class="node n8"></div>
-
         <svg class="lightning">
 
             <line x1="50%" y1="50%" x2="35%" y2="18%"/>
@@ -368,8 +380,9 @@ body {
 
     <div class="loading-text">
         ACTIVATING NEURAL NETWORK...
+        
     </div>
-
+    
 </div>
 
 <div id="content">
@@ -515,15 +528,25 @@ window.onload = () => {
 
     setTimeout(() => {
 
-        document.getElementById("loading").style.opacity = "0";
+        document.querySelector(".brain-ball").style.animation =
+            "finalFlash 0.8s forwards";
+
+        document.querySelector(".loading-text").innerText =
+            "WELCOME, FAKEZALEM";
 
         setTimeout(() => {
 
-            document.getElementById("loading").style.display = "none";
+            document.getElementById("loading").style.opacity = "0";
 
-            document.getElementById("content").style.display = "flex";
+            setTimeout(() => {
 
-        }, 1000);
+                document.getElementById("loading").style.display = "none";
+
+                document.getElementById("content").style.display = "flex";
+
+            }, 1000);
+
+        }, 800);
 
     }, 5000);
 
@@ -540,8 +563,9 @@ for(let i=0;i<80;i++){
     p.style.animationDelay =
         Math.random()*10 + "s";
 
-    document.body.appendChild(p);
+    document.getElementById("particles").appendChild(p);
 }
+
 
 </script>
 
