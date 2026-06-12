@@ -7,7 +7,7 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
     overflow: hidden;
 }
 
@@ -19,41 +19,149 @@ body {
     z-index: 999;
 }
 
-/* BACKGROUND DINÂMICO */
+/* BACKGROUND */
 .bg {
     position: absolute;
     width: 100%;
     height: 100%;
     background-size: cover;
     background-position: center;
-    filter: blur(2px) brightness(0.6);
-    transition: opacity 1s ease;
+    filter: blur(2px) brightness(0.3);
 }
 
-/* overlay escuro */
+/* OVERLAY */
 .overlay {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.55);
+}
+
+/* ESFERA */
+.brain-ball{
+    position:absolute;
+    left:50%;
+    top:45%;
+
+    width:280px;
+    height:280px;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle at center,
+        rgba(255,180,240,.95),
+        rgba(255,60,170,.85),
+        rgba(100,0,60,.8)
+    );
+
+    box-shadow:
+        0 0 40px #ff5edb,
+        0 0 100px #ff5edb,
+        0 0 180px rgba(255,0,180,.4);
+
+    animation:pulseBall 2s infinite;
+}
+
+@keyframes pulseBall{
+    0%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+    50%{
+        transform:translate(-50%,-50%) scale(1.05);
+    }
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+}
+
+/* NÚCLEO */
+.core{
+    position:absolute;
+
+    width:18px;
+    height:18px;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+        0 0 20px white,
+        0 0 60px #9ca8ff;
+}
+
+/* NEURÔNIOS */
+.node{
+    position:absolute;
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+    background:#ffd8ff;
+
+    animation:flash 1.3s infinite;
+}
+
+@keyframes flash{
+    50%{
+        box-shadow:
+            0 0 12px white,
+            0 0 25px #ff7ce8;
+    }
+}
+
+.n1{top:18%;left:35%;}
+.n2{top:25%;left:70%;}
+.n3{top:40%;left:15%;}
+.n4{top:70%;left:25%;}
+.n5{top:80%;left:60%;}
+.n6{top:55%;left:80%;}
+.n7{top:15%;left:55%;}
+.n8{top:75%;left:75%;}
+
+/* RAIOS */
+.lightning{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+.lightning line{
+    stroke:#d5dcff;
+    stroke-width:2;
+    animation:electric .15s infinite;
+}
+
+@keyframes electric{
+    50%{
+        opacity:.2;
+    }
 }
 
 /* TEXTO */
-.loading-text {
-    position: absolute;
-    bottom: 50px;
-    width: 100%;
-    text-align: center;
-    color: #f8b4ff;
-    font-size: 22px;
-    letter-spacing: 3px;
-    animation: pulse 1.5s infinite;
-}
+.loading-text{
+    position:absolute;
+    bottom:80px;
+    width:100%;
 
-@keyframes pulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
+    text-align:center;
+
+    color:#f8b4ff;
+
+    font-size:20px;
+
+    letter-spacing:3px;
+
+    text-shadow:0 0 15px #ff73dd;
 }
 
 /* CONTEÚDO */
@@ -71,18 +179,14 @@ body {
     background-position: center;
     height: 100vh;
     overflow-y: auto;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-.box {
-    background: rgba(0,0,0,0.7);
-    padding: 30px;
-    border-radius: 15px;
-    display: inline-block;
-    box-shadow: 0 0 30px #f8b4ff55;
-    animation: fadeIn 2s ease;
-    margin-top: 100px;
-}
 
+.box{
 .profile-card{
     position:absolute;
     top:20px;
@@ -174,10 +278,10 @@ body {
 
     background:rgba(0,0,0,.3);
 }
+}
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(30px);}
-    to { opacity: 1; transform: translateY(0);}
+.box h1{
+    margin-top:0;
 }
 </style>
 </head>
@@ -185,10 +289,43 @@ body {
 <body>
 
 <div id="loading">
+
     <div class="bg" id="bg1"></div>
-    <div class="bg" id="bg2" style="opacity:0;"></div>
+
     <div class="overlay"></div>
-    <div class="loading-text">LOADING...</div>
+
+    <div class="brain-ball">
+
+        <div class="core"></div>
+
+        <div class="node n1"></div>
+        <div class="node n2"></div>
+        <div class="node n3"></div>
+        <div class="node n4"></div>
+        <div class="node n5"></div>
+        <div class="node n6"></div>
+        <div class="node n7"></div>
+        <div class="node n8"></div>
+
+        <svg class="lightning">
+
+            <line x1="50%" y1="50%" x2="35%" y2="18%"/>
+            <line x1="50%" y1="50%" x2="70%" y2="25%"/>
+            <line x1="50%" y1="50%" x2="15%" y2="40%"/>
+            <line x1="50%" y1="50%" x2="25%" y2="70%"/>
+            <line x1="50%" y1="50%" x2="60%" y2="80%"/>
+            <line x1="50%" y1="50%" x2="80%" y2="55%"/>
+            <line x1="50%" y1="50%" x2="55%" y2="15%"/>
+            <line x1="50%" y1="50%" x2="75%" y2="75%"/>
+
+        </svg>
+
+    </div>
+
+    <div class="loading-text">
+        ACTIVATING NEURAL NETWORK...
+    </div>
+
 </div>
 
 <div id="content">
@@ -257,7 +394,7 @@ body {
 </div>
 
 <script>
-    
+
 function toggle(id){
     const el = document.getElementById(id);
 
@@ -283,16 +420,42 @@ const imagens = [
     link("QzXuK8A.jpeg")
 ];
 
-// pega imagem aleatória (mesmo com 1 já funciona)
-const randomImage = imagens[Math.floor(Math.random() * imagens.length)];
+const randomImage =
+    imagens[Math.floor(Math.random() * imagens.length)];
 
-document.getElementById("bg1").style.backgroundImage = `url(${randomImage})`;
+document.getElementById("bg1").style.backgroundImage =
+    `url(${randomImage})`;
 
-// finaliza loading
+const textos = [
+    "INITIALIZING MEMORY...",
+    "LOADING PROFILE...",
+    "ACTIVATING NEURAL LINKS...",
+    "WELCOME FAKEZALEM"
+];
+
+let indice = 0;
+
+setInterval(() => {
+
+    document.querySelector(".loading-text").innerText =
+        textos[indice];
+
+    indice++;
+
+    if(indice >= textos.length){
+        indice = 0;
+    }
+
+}, 800);
+
 setTimeout(() => {
+
     document.getElementById("loading").style.display = "none";
-    document.getElementById("content").style.display = "block";
-}, 3000);
+
+    document.getElementById("content").style.display = "flex";
+
+}, 5000);
+
 </script>
 
 </body>
