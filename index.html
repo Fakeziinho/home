@@ -1,572 +1,2346 @@
+```html
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Fakezalem | Wilton Lucas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FAKEOS // Wilton Lucas</title>
 
 <style>
+
+/* =========================================================
+   FAKEOS
+   Personal Spider-Verse inspired operating system
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+    --black: #050509;
+    --black-2: #09090f;
+
+    --red: #ff1744;
+    --red-dark: #8f001f;
+
+    --purple: #8b5cf6;
+    --blue: #4f7cff;
+
+    --white: #f5f5f5;
+    --gray: #85858f;
+    --gray-dark: #22222b;
+
+    --glass: rgba(10, 10, 17, .72);
+    --border: rgba(255,255,255,.12);
+
+    --font: Inter, Arial, sans-serif;
+    --mono: "Space Mono", monospace;
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
+    width: 100%;
+    height: 100%;
     margin: 0;
-    font-family: Arial, sans-serif;
+}
+
+body {
+    overflow: hidden;
+
+    background: var(--black);
+
+    color: var(--white);
+
+    font-family: var(--font);
+
+    user-select: none;
+}
+
+/* =========================================================
+   BOOT SCREEN
+   ========================================================= */
+
+#boot {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    background: #020204;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-family: var(--mono);
+
+    transition:
+        opacity .7s ease,
+        visibility .7s ease;
+}
+
+#boot.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.boot-container {
+    width: min(760px, 90vw);
+}
+
+.boot-logo {
+    position: relative;
+
+    margin-bottom: 35px;
+}
+
+.boot-logo-small {
+    color: var(--red);
+
+    font-size: 13px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 12px;
+}
+
+.boot-title {
+    font-size: clamp(42px, 8vw, 90px);
+
+    font-weight: 800;
+
+    letter-spacing: -5px;
+
+    line-height: .9;
+}
+
+.boot-title span {
+    color: var(--red);
+
+    text-shadow:
+        3px 3px 0 rgba(139,92,246,.5);
+}
+
+.boot-user {
+    margin-top: 15px;
+
+    color: #777;
+
+    font-size: 14px;
+
+    letter-spacing: 3px;
+}
+
+.boot-terminal {
+    height: 145px;
+
+    overflow: hidden;
+
+    border-left: 2px solid var(--red);
+
+    padding-left: 18px;
+
+    color: #8c8c98;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+.boot-line::before {
+    content: "> ";
+
+    color: var(--red);
+}
+
+.boot-progress {
+    margin-top: 25px;
+
+    height: 3px;
+
+    background: #17171e;
+
     overflow: hidden;
 }
 
-/* LOADING */
-#loading{
-    position:fixed;
-    width:100%;
-    height:100%;
-    z-index:999;
-    transition:opacity 1s ease;
-}
-/* BACKGROUND */
-.bg {
-    position: absolute;
-    width: 100%;
+.boot-progress-bar {
     height: 100%;
-    background-size: cover;
-    background-position: center;
-    filter: blur(2px) brightness(0.3);
-}
 
-/* OVERLAY */
-.overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.55);
-}
-
-/* ESFERA */
-.brain-ball{
-    position:absolute;
-    left:50%;
-    top:45%;
-
-    width:280px;
-    height:280px;
-    
-    transform:translate(-50%,-50%);
-    overflow: hidden;
-
-    border-radius:50%;
-
-    background:
-    radial-gradient(
-        circle at 40% 35%,
-        rgba(255,255,255,.25),
-        rgba(255,80,190,.4),
-        rgba(100,0,80,.2),
-        rgba(0,0,0,.05)
-    );
-
-    box-shadow:
-        0 0 20px rgba(255,100,200,.5),
-        0 0 60px rgba(255,50,180,.3),
-        0 0 120px rgba(255,0,150,.15);
-
-    animation:pulseBall 2s infinite;
-}
-
-@keyframes pulseBall{
-    0%{
-        transform:translate(-50%,-50%) scale(1);
-    }
-    50%{
-        transform:translate(-50%,-50%) scale(1.05);
-    }
-    100%{
-        transform:translate(-50%,-50%) scale(1);
-    }
-}
-
-/* NÚCLEO */
-.core{
-    position:absolute;
-
-    width:18px;
-    height:18px;
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-
-    border-radius:50%;
-
-    background:white;
-
-    box-shadow:
-        0 0 20px white,
-        0 0 60px #9ca8ff;
-}
-
-/* NEURÔNIOS */
-.node{
-    position:absolute;
-    width:10px;
-    height:10px;
-
-    border-radius:50%;
-    background:#ffd8ff;
-
-    animation:flash 1.3s infinite;
-}
-
-@keyframes flash{
-    50%{
-        box-shadow:
-            0 0 12px white,
-            0 0 25px #ff7ce8;
-    }
-}
-
-.n1{top:18%;left:35%;}
-.n2{top:25%;left:70%;}
-.n3{top:40%;left:15%;}
-.n4{top:70%;left:25%;}
-.n5{top:80%;left:60%;}
-.n6{top:55%;left:80%;}
-.n7{top:15%;left:55%;}
-.n8{top:75%;left:75%;}
-
-/* RAIOS */
-.lightning{
-    position:absolute;
-    width:100%;
-    height:100%;
-}
-
-.lightning line{
-    stroke:#cfd6ff;
-
-    stroke-width:1.5;
-
-    filter:drop-shadow(0 0 4px #ffffff);
-
-    animation:electric .1s infinite;
-}
-    
-@keyframes electric{
-
-    0%{
-        opacity:0;
-    }
-
-    50%{
-        opacity:1;
-    }
-
-    100%{
-        opacity:0;
-    }
-
-}
-    
-@keyframes finalFlash {
-
-    0%{
-        transform:translate(-50%,-50%) scale(1);
-        filter:brightness(1);
-    }
-
-    100%{
-        transform:translate(-50%,-50%) scale(1.15);
-        filter:brightness(1.5);
-    }
-
-}
-
-/* TEXTO */
-.loading-text{
-    position:absolute;
-    bottom:80px;
-    width:100%;
-
-    text-align:center;
-
-    color:#f8b4ff;
-
-    font-size:20px;
-
-    letter-spacing:3px;
-
-    text-shadow:0 0 15px #ff73dd;
-}
-
-/* CONTEÚDO */
-#content {
-    display: none;
-
-    color: #f8b4ff;
-
-    background:
-        linear-gradient(
-            rgba(15,10,25,.65),
-            rgba(5,5,15,.85)
-        ),
-        url("https://wallpapercave.com/wp/wp5128415.jpg");
-
-    background-size: cover;
-    background-position: center;
-
-    height: 100vh;
-
-    overflow-y: auto;
-
-    justify-content:center;
-    align-items:center;
-}
-    
-#neurons{
-    position:absolute;
-    width:100%;
-    height:100%;
-    border-radius:50%;
-}
-
-.profile-card{
-    position:absolute;
-    top:20px;
-    left:20px;
-
-    width:320px;
-    padding:15px;
-
-    display:flex;
-    gap:15px;
-    align-items:center;
-
-    border-radius:25px;
-
-    backdrop-filter: blur(15px);
-
-    background:rgba(30,20,50,.35);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    box-shadow:0 0 20px rgba(248,180,255,.25);
-}
-
-.profile-card img{
-    width:90px;
-    height:90px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-.profile-name{
-    font-size:32px;
-    font-weight:bold;
-}
-
-.profile-sub{
-    color:#d8c7ff;
-}
-
-.main-panel{
-    width:700px;
-    margin:180px auto 50px auto;
-
-    padding:25px;
-
-    border-radius:25px;
-
-    backdrop-filter: blur(15px);
-
-    background:rgba(15,15,20,.45);
-
-    border:1px solid rgba(255,255,255,.12);
-}
-
-.section{
-    margin-top:15px;
-}
-
-.section button{
-    width:100%;
-    padding:15px;
-
-    border:none;
-
-    border-radius:12px;
-
-    color:white;
+    width: 0;
 
     background:
         linear-gradient(
             90deg,
-            #a40052,
-            #ff0080
+            var(--red),
+            var(--purple),
+            var(--blue)
         );
 
-    cursor:pointer;
-
-    font-size:16px;
+    animation: bootProgress 2.8s ease forwards;
 }
 
-.section-content{
-    display:none;
+.boot-status {
+    margin-top: 12px;
 
-    padding:15px;
+    display: flex;
 
-    margin-top:8px;
+    justify-content: space-between;
 
-    border-radius:12px;
+    color: #555;
 
-    background:rgba(0,0,0,.3);
+    font-size: 10px;
+
+    letter-spacing: 2px;
 }
 
-.particle{
+@keyframes bootProgress {
 
-    position:absolute;
-
-    width:2px;
-    height:2px;
-
-    background:white;
-
-    border-radius:50%;
-
-    animation:float 10s linear infinite;
-}
-
-@keyframes float{
-
-    from{
-        transform:translateY(100vh);
-    }
-
-    to{
-        transform:translateY(-100px);
+    to {
+        width: 100%;
     }
 
 }
 
-.box h1{
-    margin-top:0;
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+#desktop {
+    position: fixed;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    transition: opacity .8s ease;
+
+    background:
+        radial-gradient(
+            circle at 70% 30%,
+            rgba(120, 50, 160, .15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(255, 0, 60, .09),
+            transparent 35%
+        ),
+        #050509;
 }
+
+#desktop.visible {
+    opacity: 1;
+}
+
+/* =========================================================
+   SPIDER WEB BACKGROUND
+   ========================================================= */
+
+.web-background {
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .12;
+
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            30deg,
+            transparent 48%,
+            rgba(255,255,255,.2) 49%,
+            transparent 50%
+        ),
+        linear-gradient(
+            -30deg,
+            transparent 48%,
+            rgba(255,255,255,.15) 49%,
+            transparent 50%
+        );
+
+    background-size: 120px 120px;
+
+    mask-image:
+        radial-gradient(
+            circle at 50% 50%,
+            black,
+            transparent 75%
+        );
+}
+
+/* =========================================================
+   HALFTONE
+   ========================================================= */
+
+.halftone {
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -150px;
+    top: -150px;
+
+    opacity: .15;
+
+    background-image:
+        radial-gradient(
+            rgba(255, 23, 68, .8) 1.5px,
+            transparent 1.5px
+        );
+
+    background-size: 12px 12px;
+
+    transform: rotate(8deg);
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 54px;
+
+    padding: 0 24px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    background:
+        rgba(3,3,7,.8);
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+
+    backdrop-filter: blur(20px);
+
+    z-index: 100;
+}
+
+.system-name {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-family: var(--mono);
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+}
+
+.system-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--red);
+
+    box-shadow:
+        0 0 10px var(--red);
+
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    50% {
+        opacity: .4;
+    }
+
+}
+
+.top-center {
+    position: absolute;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-family: var(--mono);
+
+    font-size: 10px;
+
+    color: #686872;
+
+    letter-spacing: 2px;
+}
+
+.top-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    font-family: var(--mono);
+
+    font-size: 10px;
+
+    color: #777;
+}
+
+.status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+.status i {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #57e389;
+}
+
+/* =========================================================
+   DESKTOP CONTENT
+   ========================================================= */
+
+.desktop-content {
+    position: absolute;
+
+    inset: 54px 0 76px 0;
+
+    padding: 55px 65px;
+}
+
+/* =========================================================
+   MAIN IDENTITY
+   ========================================================= */
+
+.identity {
+    position: absolute;
+
+    left: 7%;
+    top: 17%;
+
+    max-width: 650px;
+}
+
+.identity-system {
+    font-family: var(--mono);
+
+    color: var(--red);
+
+    font-size: 11px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 18px;
+}
+
+.identity h1 {
+    margin: 0;
+
+    font-size: clamp(55px, 9vw, 125px);
+
+    font-weight: 800;
+
+    line-height: .8;
+
+    letter-spacing: -7px;
+
+    text-transform: uppercase;
+
+    position: relative;
+}
+
+.identity h1::after {
+    content: "FAKEZALEM";
+
+    position: absolute;
+
+    left: 4px;
+    top: 4px;
+
+    color: var(--red);
+
+    opacity: .22;
+
+    z-index: -1;
+}
+
+.identity-name {
+    margin-top: 22px;
+
+    font-size: 19px;
+
+    letter-spacing: 8px;
+
+    color: #aaaab5;
+
+    text-transform: uppercase;
+}
+
+.identity-line {
+    width: 180px;
+
+    height: 2px;
+
+    margin-top: 25px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--red),
+            transparent
+        );
+}
+
+/* =========================================================
+   F.A.I. PANEL
+   ========================================================= */
+
+.ai-panel {
+    position: absolute;
+
+    right: 8%;
+    top: 19%;
+
+    width: min(350px, 30vw);
+
+    min-height: 220px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,20,29,.88),
+            rgba(7,7,12,.82)
+        );
+
+    border: 1px solid rgba(255,255,255,.1);
+
+    border-left: 2px solid var(--red);
+
+    box-shadow:
+        20px 20px 0 rgba(255,23,68,.03),
+        0 25px 80px rgba(0,0,0,.4);
+
+    backdrop-filter: blur(20px);
+
+    transition:
+        transform .3s ease,
+        border-color .3s ease;
+}
+
+.ai-panel:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(255,23,68,.4);
+}
+
+.ai-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.ai-title {
+    font-family: var(--mono);
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    color: var(--red);
+}
+
+.ai-online {
+    color: #57e389;
+
+    font-family: var(--mono);
+
+    font-size: 9px;
+}
+
+.ai-avatar {
+    position: relative;
+
+    width: 48px;
+    height: 48px;
+
+    border: 1px solid rgba(255,255,255,.15);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+}
+
+.ai-avatar::before,
+.ai-avatar::after {
+    content: "";
+
+    position: absolute;
+
+    width: 9px;
+    height: 9px;
+
+    border: 1px solid var(--red);
+}
+
+.ai-avatar::before {
+    top: -5px;
+    left: -5px;
+
+    border-right: none;
+    border-bottom: none;
+}
+
+.ai-avatar::after {
+    right: -5px;
+    bottom: -5px;
+
+    border-left: none;
+    border-top: none;
+}
+
+.ai-avatar span {
+    font-family: var(--mono);
+
+    color: white;
+
+    font-size: 13px;
+}
+
+.ai-message {
+    font-family: var(--mono);
+
+    font-size: 12px;
+
+    color: #b7b7c2;
+
+    line-height: 1.8;
+}
+
+.ai-message strong {
+    color: white;
+}
+
+.ai-cursor {
+    display: inline-block;
+
+    width: 6px;
+    height: 12px;
+
+    margin-left: 4px;
+
+    background: var(--red);
+
+    animation: cursorBlink .8s infinite;
+}
+
+@keyframes cursorBlink {
+
+    50% {
+        opacity: 0;
+    }
+
+}
+
+/* =========================================================
+   SYSTEM CARDS
+   ========================================================= */
+
+.system-info {
+    position: absolute;
+
+    bottom: 30px;
+    left: 7%;
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.info-box {
+    min-width: 135px;
+
+    padding: 12px 15px;
+
+    background: rgba(10,10,16,.65);
+
+    border: 1px solid rgba(255,255,255,.07);
+
+    font-family: var(--mono);
+
+    font-size: 9px;
+
+    color: #666;
+
+    backdrop-filter: blur(15px);
+}
+
+.info-box span {
+    display: block;
+
+    color: #aaa;
+
+    margin-top: 5px;
+}
+
+.info-box .red {
+    color: var(--red);
+}
+
+/* =========================================================
+   DOCK
+   ========================================================= */
+
+.dock {
+    position: absolute;
+
+    bottom: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    height: 58px;
+
+    padding: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    background: rgba(8,8,13,.78);
+
+    border: 1px solid rgba(255,255,255,.1);
+
+    backdrop-filter: blur(25px);
+
+    z-index: 200;
+}
+
+.dock-button {
+    position: relative;
+
+    width: 44px;
+    height: 44px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #aaa;
+
+    cursor: pointer;
+
+    font-family: var(--mono);
+
+    font-size: 14px;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        color .2s ease;
+}
+
+.dock-button:hover {
+    color: white;
+
+    background: rgba(255,255,255,.08);
+
+    transform: translateY(-5px);
+}
+
+.dock-button.active {
+    color: var(--red);
+}
+
+.dock-button::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: 3px;
+    left: 50%;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+
+    opacity: 0;
+}
+
+.dock-button.active::after {
+    opacity: 1;
+}
+
+/* =========================================================
+   WINDOW
+   ========================================================= */
+
+.window {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: min(850px, 85vw);
+    height: min(560px, 72vh);
+
+    transform:
+        translate(-50%, -50%)
+        scale(.96);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    background:
+        rgba(7,7,12,.94);
+
+    border: 1px solid rgba(255,255,255,.13);
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.65);
+
+    backdrop-filter: blur(25px);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+
+    z-index: 500;
+}
+
+.window.open {
+    opacity: 1;
+
+    pointer-events: auto;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+}
+
+.window-header {
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 15px;
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+
+    background: rgba(255,255,255,.025);
+
+    cursor: default;
+}
+
+.window-buttons {
+    display: flex;
+
+    gap: 7px;
+}
+
+.window-buttons button {
+    width: 10px;
+    height: 10px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+.close {
+    background: var(--red);
+}
+
+.minimize {
+    background: #777;
+}
+
+.window-title {
+    margin-left: 15px;
+
+    font-family: var(--mono);
+
+    font-size: 10px;
+
+    color: #777;
+
+    letter-spacing: 2px;
+}
+
+.window-body {
+    height: calc(100% - 42px);
+
+    overflow: auto;
+
+    padding: 30px;
+}
+
+/* =========================================================
+   TERMINAL
+   ========================================================= */
+
+.terminal {
+    font-family: var(--mono);
+
+    font-size: 12px;
+
+    line-height: 1.9;
+
+    color: #aaa;
+}
+
+.terminal .prompt {
+    color: var(--red);
+}
+
+.terminal input {
+    width: 80%;
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: inherit;
+}
+
+.terminal-line {
+    margin-bottom: 8px;
+}
+
+/* =========================================================
+   FILE SYSTEM
+   ========================================================= */
+
+.file-system {
+    font-family: var(--mono);
+
+    font-size: 12px;
+}
+
+.file {
+    padding: 14px;
+
+    border-bottom: 1px solid rgba(255,255,255,.05);
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        padding-left .2s ease;
+}
+
+.file:hover {
+    background: rgba(255,255,255,.04);
+
+    padding-left: 22px;
+}
+
+.file-icon {
+    color: var(--red);
+
+    margin-right: 10px;
+}
+
+.file-name {
+    color: #eee;
+}
+
+.file-info {
+    float: right;
+
+    color: #555;
+}
+
+/* =========================================================
+   SPIDER SENSE
+   ========================================================= */
+
+.spider-sense {
+    position: absolute;
+
+    right: 30px;
+    bottom: 95px;
+
+    width: 140px;
+
+    font-family: var(--mono);
+
+    font-size: 8px;
+
+    letter-spacing: 1px;
+
+    color: #555;
+
+    text-align: right;
+}
+
+.sense-label {
+    margin-bottom: 7px;
+}
+
+.sense-bar {
+    height: 2px;
+
+    background: #17171e;
+
+    overflow: hidden;
+}
+
+.sense-level {
+    height: 100%;
+
+    width: 93%;
+
+    background: var(--red);
+
+    box-shadow:
+        0 0 8px var(--red);
+
+    transition: width .3s ease;
+}
+
+/* =========================================================
+   GLITCH
+   ========================================================= */
+
+.glitch {
+    animation: glitch .18s linear;
+}
+
+@keyframes glitch {
+
+    0% {
+        transform: translate(0);
+        filter: none;
+    }
+
+    25% {
+        transform: translate(-4px, 2px);
+        filter: hue-rotate(30deg);
+    }
+
+    50% {
+        transform: translate(3px, -1px);
+        filter: contrast(1.4);
+    }
+
+    75% {
+        transform: translate(-2px, 1px);
+    }
+
+    100% {
+        transform: translate(0);
+        filter: none;
+    }
+
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .top-center {
+        display: none;
+    }
+
+    .identity {
+        left: 30px;
+        top: 18%;
+    }
+
+    .identity h1 {
+        font-size: 65px;
+
+        letter-spacing: -4px;
+    }
+
+    .ai-panel {
+        left: 30px;
+        right: auto;
+
+        top: auto;
+        bottom: 150px;
+
+        width: 310px;
+    }
+
+    .system-info {
+        display: none;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .top-right {
+        gap: 8px;
+    }
+
+    .identity {
+        top: 13%;
+    }
+
+    .identity h1 {
+        font-size: 52px;
+    }
+
+    .identity-name {
+        font-size: 13px;
+
+        letter-spacing: 4px;
+    }
+
+    .ai-panel {
+        left: 20px;
+        right: 20px;
+        bottom: 130px;
+
+        width: auto;
+    }
+
+    .dock {
+        bottom: 12px;
+    }
+
+    .window {
+        width: 94vw;
+        height: 70vh;
+    }
+
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #08080c;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #33333d;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--red);
+}
+
 </style>
 </head>
 
+
 <body>
 
-<div id="loading">
 
-    <div class="bg" id="bg1"></div>
+<!-- =======================================================
+     BOOT
+     ======================================================= -->
 
-    <div class="overlay"></div>
-    <div id="particles"></div>
-    
-    <div class="brain-ball">
+<div id="boot">
 
-        <div class="core"></div>
-        <div id="neurons"></div>
+    <div class="boot-container">
 
-        <svg class="lightning">
+        <div class="boot-logo">
 
-            <line x1="50%" y1="50%" x2="35%" y2="18%"/>
-            <line x1="50%" y1="50%" x2="70%" y2="25%"/>
-            <line x1="50%" y1="50%" x2="15%" y2="40%"/>
-            <line x1="50%" y1="50%" x2="25%" y2="70%"/>
-            <line x1="50%" y1="50%" x2="60%" y2="80%"/>
-            <line x1="50%" y1="50%" x2="80%" y2="55%"/>
-            <line x1="50%" y1="50%" x2="55%" y2="15%"/>
-            <line x1="50%" y1="50%" x2="75%" y2="75%"/>
-
-        </svg>
-
-    </div>
-
-    <div class="loading-text">
-        ACTIVATING NEURAL NETWORK...
-        
-    </div>
-    
-</div>
-
-<div id="content">
-
-    <div class="profile-card">
-
-        <img src="https://i.imgur.com/UvYj3eH.png">
-
-        <div>
-            <div class="profile-name">
-                Fakezalem
+            <div class="boot-logo-small">
+                FAKEOS // PERSONAL SYSTEM
             </div>
 
-            <div class="profile-sub">
-                Wilton Lucas
+            <div class="boot-title">
+                FAKE<span>OS</span>
             </div>
 
-            <div>
-                💻 Dev • 🎮 Minecraft Modder
+            <div class="boot-user">
+                WILTON LUCAS // FAKEZALEM
             </div>
+
         </div>
 
-    </div>
 
-    <div class="main-panel">
+        <div class="boot-terminal">
 
-        <h1>About Me</h1>
-
-        <div class="section">
-            <button onclick="toggle('sobre')">
-                Quem Sou Eu
-            </button>
-
-            <div id="sobre" class="section-content">
-                :)))))))))
+            <div class="boot-line">
+                Initializing kernel...
             </div>
+
+            <div class="boot-line">
+                Mounting /home/fakezalem...
+            </div>
+
+            <div class="boot-line">
+                Loading neural interface...
+            </div>
+
+            <div class="boot-line">
+                Initializing spider-sense...
+            </div>
+
+            <div class="boot-line">
+                Starting F.A.I...
+            </div>
+
+            <div class="boot-line">
+                Establishing secure connection...
+            </div>
+
         </div>
 
-        <div class="section">
-            <button onclick="toggle('projetos')">
-                Projetos
-            </button>
 
-            <div id="projetos" class="section-content">
-                Eu<br>
-                sou<br>
-                Autista
-            </div>
+        <div class="boot-progress">
+            <div class="boot-progress-bar"></div>
         </div>
 
-        <div class="section">
-            <button onclick="toggle('contato')">
-                Redes
-            </button>
 
-            <div id="contato" class="section-content">
-                GitHub<br>
-                Discord<br>
-                Instagram
-            </div>
+        <div class="boot-status">
+
+            <span>
+                KERNEL 6.8-FZ
+            </span>
+
+            <span>
+                SYSTEM ONLINE
+            </span>
+
         </div>
 
     </div>
 
 </div>
+
+
+<!-- =======================================================
+     DESKTOP
+     ======================================================= -->
+
+<div id="desktop">
+
+    <div class="web-background"></div>
+
+    <div class="halftone"></div>
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="system-name">
+
+            <div class="system-dot"></div>
+
+            <span>FAKEOS</span>
+
+        </div>
+
+
+        <div class="top-center">
+
+            /home/fakezalem
+
+        </div>
+
+
+        <div class="top-right">
+
+            <div class="status">
+
+                <i></i>
+
+                SYSTEM
+
+            </div>
+
+            <span id="clock">
+                00:00
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- DESKTOP -->
+
+    <div class="desktop-content">
+
+
+        <!-- IDENTITY -->
+
+        <div class="identity">
+
+            <div class="identity-system">
+
+                PERSONAL SYSTEM // USER DETECTED
+
+            </div>
+
+
+            <h1>
+                FAKEZALEM
+            </h1>
+
+
+            <div class="identity-name">
+
+                WILTON LUCAS
+
+            </div>
+
+
+            <div class="identity-line"></div>
+
+        </div>
+
+
+        <!-- AI -->
+
+        <div class="ai-panel">
+
+            <div class="ai-header">
+
+                <div class="ai-title">
+
+                    F.A.I. // PERSONAL AI
+
+                </div>
+
+                <div class="ai-online">
+
+                    ● ONLINE
+
+                </div>
+
+            </div>
+
+
+            <div class="ai-avatar">
+
+                <span>
+                    F
+                </span>
+
+            </div>
+
+
+            <div class="ai-message">
+
+                <strong>
+                    Good evening, Wilton.
+                </strong>
+
+                <br><br>
+
+                All systems are operational.
+
+                <br>
+
+                Spider-Sense is active.
+
+                <br><br>
+
+                What are we doing today?
+
+                <span class="ai-cursor"></span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SYSTEM INFO -->
+
+        <div class="system-info">
+
+            <div class="info-box">
+
+                USER
+
+                <span>
+                    <strong>FAKEZALEM</strong>
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                KERNEL
+
+                <span>
+                    <strong>6.8-FZ</strong>
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                SPIDER-SENSE
+
+                <span class="red">
+
+                    ONLINE
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- SPIDER SENSE -->
+
+        <div class="spider-sense">
+
+            <div class="sense-label">
+
+                SPIDER-SENSE // 93%
+
+            </div>
+
+            <div class="sense-bar">
+
+                <div class="sense-level"></div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- DOCK -->
+
+    <div class="dock">
+
+        <button
+            class="dock-button active"
+            title="F.A.I."
+            onclick="openWindow('aiWindow')">
+
+            ◉
+
+        </button>
+
+
+        <button
+            class="dock-button"
+            title="Files"
+            onclick="openWindow('filesWindow')">
+
+            ▣
+
+        </button>
+
+
+        <button
+            class="dock-button"
+            title="Terminal"
+            onclick="openWindow('terminalWindow')">
+
+            >
+
+        </button>
+
+
+        <button
+            class="dock-button"
+            title="System"
+            onclick="openWindow('systemWindow')">
+
+            ◫
+
+        </button>
+
+    </div>
+
+
+    <!-- ===================================================
+         AI WINDOW
+         =================================================== -->
+
+    <div class="window" id="aiWindow">
+
+        <div class="window-header">
+
+            <div class="window-buttons">
+
+                <button
+                    class="close"
+                    onclick="closeWindow('aiWindow')">
+                </button>
+
+                <button class="minimize"></button>
+
+            </div>
+
+            <div class="window-title">
+
+                F.A.I. // PERSONAL ARTIFICIAL INTELLIGENCE
+
+            </div>
+
+        </div>
+
+
+        <div class="window-body">
+
+            <div class="terminal">
+
+                <div class="terminal-line">
+
+                    <span class="prompt">
+                        F.A.I.:
+                    </span>
+
+                    Neural interface established.
+
+                </div>
+
+
+                <div class="terminal-line">
+
+                    <span class="prompt">
+                        F.A.I.:
+                    </span>
+
+                    User identified as
+
+                    <strong>
+                        WILTON LUCAS
+                    </strong>.
+
+                </div>
+
+
+                <div class="terminal-line">
+
+                    <span class="prompt">
+                        F.A.I.:
+                    </span>
+
+                    Alias:
+
+                    <strong>
+                        FAKEZALEM
+                    </strong>.
+
+                </div>
+
+
+                <br>
+
+
+                <div class="terminal-line">
+
+                    <span class="prompt">
+                        F.A.I.:
+                    </span>
+
+                    Spider-Sense status: ONLINE.
+
+                </div>
+
+
+                <div class="terminal-line">
+
+                    <span class="prompt">
+                        F.A.I.:
+                    </span>
+
+                    Everything appears to be under control.
+
+                </div>
+
+
+                <br>
+
+
+                <div class="terminal-line">
+
+                    <span class="prompt">
+                        F.A.I.:
+                    </span>
+
+                    For now.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         FILES WINDOW
+         =================================================== -->
+
+    <div class="window" id="filesWindow">
+
+        <div class="window-header">
+
+            <div class="window-buttons">
+
+                <button
+                    class="close"
+                    onclick="closeWindow('filesWindow')">
+                </button>
+
+                <button class="minimize"></button>
+
+            </div>
+
+            <div class="window-title">
+
+                /home/fakezalem/
+
+            </div>
+
+        </div>
+
+
+        <div class="window-body">
+
+            <div class="file-system">
+
+
+                <div class="file">
+
+                    <span class="file-icon">
+                        /
+                    </span>
+
+                    <span class="file-name">
+                        about
+                    </span>
+
+                    <span class="file-info">
+                        directory
+                    </span>
+
+                </div>
+
+
+                <div class="file">
+
+                    <span class="file-icon">
+                        /
+                    </span>
+
+                    <span class="file-name">
+                        projects
+                    </span>
+
+                    <span class="file-info">
+                        directory
+                    </span>
+
+                </div>
+
+
+                <div class="file">
+
+                    <span class="file-icon">
+                        /
+                    </span>
+
+                    <span class="file-name">
+                        archive
+                    </span>
+
+                    <span class="file-info">
+                        directory
+                    </span>
+
+                </div>
+
+
+                <div class="file">
+
+                    <span class="file-icon">
+                        /
+                    </span>
+
+                    <span class="file-name">
+                        gallery
+                    </span>
+
+                    <span class="file-info">
+                        directory
+                    </span>
+
+                </div>
+
+
+                <div class="file">
+
+                    <span class="file-icon">
+                        /
+                    </span>
+
+                    <span class="file-name">
+                        network
+                    </span>
+
+                    <span class="file-info">
+                        directory
+                    </span>
+
+                </div>
+
+
+                <div class="file">
+
+                    <span class="file-icon">
+                        ?
+                    </span>
+
+                    <span class="file-name">
+                        secrets
+                    </span>
+
+                    <span class="file-info">
+                        protected
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         TERMINAL WINDOW
+         =================================================== -->
+
+    <div class="window" id="terminalWindow">
+
+        <div class="window-header">
+
+            <div class="window-buttons">
+
+                <button
+                    class="close"
+                    onclick="closeWindow('terminalWindow')">
+                </button>
+
+                <button class="minimize"></button>
+
+            </div>
+
+            <div class="window-title">
+
+                TERMINAL // FZ-SHELL
+
+            </div>
+
+        </div>
+
+
+        <div class="window-body">
+
+            <div class="terminal" id="terminal">
+
+                <div>
+                    FAKEOS Terminal
+                </div>
+
+                <div>
+                    FZ-SHELL 1.0
+                </div>
+
+                <br>
+
+                <div>
+                    Type <strong>help</strong> to see available commands.
+                </div>
+
+                <br>
+
+                <div>
+
+                    <span class="prompt">
+                        fakezalem@fakeos:~$
+                    </span>
+
+                    <input
+                        id="terminalInput"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         SYSTEM WINDOW
+         =================================================== -->
+
+    <div class="window" id="systemWindow">
+
+        <div class="window-header">
+
+            <div class="window-buttons">
+
+                <button
+                    class="close"
+                    onclick="closeWindow('systemWindow')">
+                </button>
+
+                <button class="minimize"></button>
+
+            </div>
+
+            <div class="window-title">
+
+                SYSTEM INFORMATION
+
+            </div>
+
+        </div>
+
+
+        <div class="window-body">
+
+            <div class="terminal">
+
+                <div>
+                    <span class="prompt">
+                        SYSTEM
+                    </span>
+                    FAKEOS
+                </div>
+
+                <div>
+                    <span class="prompt">
+                        USER
+                    </span>
+                    WILTON LUCAS
+                </div>
+
+                <div>
+                    <span class="prompt">
+                        ALIAS
+                    </span>
+                    FAKEZALEM
+                </div>
+
+                <div>
+                    <span class="prompt">
+                        KERNEL
+                    </span>
+                    6.8-FZ
+                </div>
+
+                <div>
+                    <span class="prompt">
+                        F.A.I.
+                    </span>
+                    ONLINE
+                </div>
+
+                <div>
+                    <span class="prompt">
+                        SPIDER-SENSE
+                    </span>
+                    ONLINE
+                </div>
+
+                <br>
+
+                <div>
+                    Uptime:
+                    <span id="uptime">
+                        00:00:00
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 <script>
-    
 
-const neurons = document.getElementById("neurons");
+/* =========================================================
+   BOOT
+   ========================================================= */
 
-for(let i=0;i<40;i++){
+const boot = document.getElementById("boot");
+const desktop = document.getElementById("desktop");
 
-    const node = document.createElement("div");
+setTimeout(() => {
 
-    node.className = "node";
+    boot.classList.add("hidden");
 
-    node.style.left = Math.random()*85 + "%";
-    node.style.top = Math.random()*85 + "%";
+    desktop.classList.add("visible");
 
-    node.style.animationDelay =
-        Math.random()*2 + "s";
+}, 3300);
 
-    neurons.appendChild(node);
+
+/* =========================================================
+   CLOCK
+   ========================================================= */
+
+function updateClock() {
+
+    const now = new Date();
+
+    const hours =
+        String(now.getHours()).padStart(2, "0");
+
+    const minutes =
+        String(now.getMinutes()).padStart(2, "0");
+
+    const seconds =
+        String(now.getSeconds()).padStart(2, "0");
+
+    document.getElementById("clock").textContent =
+        `${hours}:${minutes}:${seconds}`;
+
 }
 
+setInterval(updateClock, 1000);
 
-function toggle(id){
-    const el = document.getElementById(id);
+updateClock();
 
-    if(el.style.display === "block"){
-        el.style.display = "none";
-    }else{
-        el.style.display = "block";
-    }
-}
-    
-function link(id){
-    return `https://i.imgur.com/${id}`;
-}
 
-const imagens = [
-    link("MbHhd38.jpeg"),
-    link("UvYj3eH.png"),
-    link("uBNCHq7.jpeg"),
-    link("IWNUmTa.jpeg"),
-    link("66KX5mj.jpeg"),
-    link("FwVS147.jpeg"),
-    link("0BkZdsK.jpeg"),
-    link("QzXuK8A.jpeg")
-];
+/* =========================================================
+   WINDOWS
+   ========================================================= */
 
-const randomImage =
-    imagens[Math.floor(Math.random() * imagens.length)];
+function openWindow(id) {
 
-document.getElementById("bg1").style.backgroundImage =
-    `url(${randomImage})`;
+    const windowElement =
+        document.getElementById(id);
 
-const textos = [
-    "INITIALIZING MEMORY...",
-    "LOADING PROFILE...",
-    "ACTIVATING NEURAL LINKS...",
-    "WELCOME FAKEZALEM"
-];
+    windowElement.classList.add("open");
 
-let indice = 0;
+    document.body.classList.add("window-open");
 
-setInterval(() => {
+    triggerGlitch();
 
-    document.querySelector(".loading-text").innerText =
-        textos[indice];
-
-    indice++;
-
-    if(indice >= textos.length){
-        indice = 0;
-    }
-
-}, 800);
-
-window.onload = () => {
-
-    setTimeout(() => {
-
-        document.querySelector(".brain-ball").style.animation =
-            "finalFlash 0.8s forwards";
-
-        document.querySelector(".loading-text").innerText =
-            "WELCOME, FAKEZALEM";
+    if(id === "terminalWindow") {
 
         setTimeout(() => {
 
-            document.getElementById("loading").style.opacity = "0";
+            document
+                .getElementById("terminalInput")
+                .focus();
 
-            setTimeout(() => {
+        }, 300);
 
-                document.getElementById("loading").style.display = "none";
+    }
 
-                document.getElementById("content").style.display = "flex";
-
-            }, 1000);
-
-        }, 800);
-
-    }, 5000);
-
-};
-
-for(let i=0;i<80;i++){
-
-    const p = document.createElement("div");
-
-    p.className = "particle";
-
-    p.style.left = Math.random()*100 + "%";
-
-    p.style.animationDelay =
-        Math.random()*10 + "s";
-
-    document.getElementById("particles").appendChild(p);
 }
+
+
+function closeWindow(id) {
+
+    document
+        .getElementById(id)
+        .classList.remove("open");
+
+}
+
+
+/* =========================================================
+   GLITCH
+   ========================================================= */
+
+function triggerGlitch() {
+
+    desktop.classList.remove("glitch");
+
+    void desktop.offsetWidth;
+
+    desktop.classList.add("glitch");
+
+}
+
+
+/* =========================================================
+   TERMINAL
+   ========================================================= */
+
+const terminalInput =
+    document.getElementById("terminalInput");
+
+const terminal =
+    document.getElementById("terminal");
+
+
+terminalInput.addEventListener("keydown", function(event) {
+
+    if(event.key !== "Enter") {
+        return;
+    }
+
+    const command =
+        terminalInput.value
+            .trim()
+            .toLowerCase();
+
+    terminalInput.value = "";
+
+    const line =
+        document.createElement("div");
+
+    line.className = "terminal-line";
+
+    line.innerHTML =
+        `<span class="prompt">
+            fakezalem@fakeos:~$
+        </span> ${command}`;
+
+    terminal.insertBefore(
+        line,
+        terminal.lastElementChild
+    );
+
+
+    const output =
+        document.createElement("div");
+
+    output.className = "terminal-line";
+
+
+    switch(command) {
+
+        case "help":
+
+            output.innerHTML =
+                `Available commands:<br>
+                about<br>
+                system<br>
+                whoami<br>
+                clear<br>
+                sudo`;
+
+            break;
+
+
+        case "whoami":
+
+            output.textContent =
+                "Wilton Lucas // Fakezalem";
+
+            break;
+
+
+        case "about":
+
+            output.textContent =
+                "Personal system of Wilton Lucas.";
+
+            break;
+
+
+        case "system":
+
+            output.textContent =
+                "FAKEOS // KERNEL 6.8-FZ // F.A.I. ONLINE";
+
+            break;
+
+
+        case "sudo":
+
+            output.textContent =
+                "Nice try.";
+
+            triggerGlitch();
+
+            break;
+
+
+        case "clear":
+
+            terminal.innerHTML = "";
+
+            terminal.appendChild(
+                createTerminalPrompt()
+            );
+
+            return;
+
+
+        case "":
+
+            return;
+
+
+        default:
+
+            output.textContent =
+                `Command not found: ${command}`;
+
+    }
+
+
+    terminal.insertBefore(
+        output,
+        terminal.lastElementChild
+    );
+
+});
+
+
+function createTerminalPrompt() {
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.innerHTML = `
+        <span class="prompt">
+            fakezalem@fakeos:~$
+        </span>
+
+        <input
+            id="terminalInput"
+            autocomplete="off"
+            spellcheck="false"
+        >
+    `;
+
+    return wrapper;
+
+}
+
+
+/* =========================================================
+   UPTIME
+   ========================================================= */
+
+const startTime = Date.now();
+
+
+function updateUptime() {
+
+    const elapsed =
+        Math.floor(
+            (Date.now() - startTime) / 1000
+        );
+
+    const hours =
+        String(
+            Math.floor(elapsed / 3600)
+        ).padStart(2, "0");
+
+    const minutes =
+        String(
+            Math.floor((elapsed % 3600) / 60)
+        ).padStart(2, "0");
+
+    const seconds =
+        String(elapsed % 60)
+            .padStart(2, "0");
+
+    document.getElementById("uptime")
+        .textContent =
+        `${hours}:${minutes}:${seconds}`;
+
+}
+
+setInterval(updateUptime, 1000);
+
+
+/* =========================================================
+   SPIDER SENSE
+   ========================================================= */
+
+document.addEventListener("mousemove", function(event) {
+
+    const x =
+        event.clientX / window.innerWidth;
+
+    const y =
+        event.clientY / window.innerHeight;
+
+    const distance =
+        Math.sqrt(
+            Math.pow(x - .5, 2) +
+            Math.pow(y - .5, 2)
+        );
+
+    const percentage =
+        Math.max(
+            55,
+            Math.min(
+                99,
+                Math.round(100 - distance * 70)
+            )
+        );
+
+    document.querySelector(".sense-level")
+        .style.width =
+        percentage + "%";
+
+    document.querySelector(".sense-label")
+        .textContent =
+        `SPIDER-SENSE // ${percentage}%`;
+
+});
+
+
+/* =========================================================
+   RANDOM AI MESSAGES
+   ========================================================= */
+
+const aiMessages = [
+
+    "Good evening, Wilton.",
+
+    "All systems are operational.",
+
+    "Spider-Sense is active.",
+
+    "I was expecting you.",
+
+    "Everything appears to be under control.",
+
+    "For now.",
+
+    "The system is watching.",
+
+    "Welcome back, Fakezalem."
+
+];
+
+let aiIndex = 0;
+
+
+setInterval(() => {
+
+    aiIndex =
+        (aiIndex + 1)
+        % aiMessages.length;
+
+    const message =
+        document.querySelector(".ai-message");
+
+    message.innerHTML = `
+        <strong>
+            ${aiMessages[aiIndex]}
+        </strong>
+
+        <br><br>
+
+        System status: OPTIMAL.
+
+        <br>
+
+        Spider-Sense: ONLINE.
+
+        <br><br>
+
+        What are we doing today?
+
+        <span class="ai-cursor"></span>
+    `;
+
+}, 5000);
+
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener("keydown", function(event) {
+
+    if(event.key === "Escape") {
+
+        document
+            .querySelectorAll(".window.open")
+            .forEach(windowElement => {
+
+                windowElement.classList.remove("open");
+
+            });
+
+    }
+
+});
 
 
 </script>
 
 </body>
 </html>
+```
